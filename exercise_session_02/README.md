@@ -177,7 +177,19 @@ The following is a list of the modules and extensions currently available:
 
 
 ``` 
-lists all possible modules. q
+lists all possible modules. 
+
+# Ex 3
+1. We see the queued jobs. to only show my I can run the `squeue -u $USER` flag
+2. file sadded to git
+3. add output and error flag to slurm job file 
+4.  outputs and erros added to git
+5. To format the output we run 
+```bash
+squeue -o "%.18i %.8u %.10Q %.10a %.15j %.6D %.2t %.20r %.19S %.10L %.10p"
+```
+
+
 
 
 
