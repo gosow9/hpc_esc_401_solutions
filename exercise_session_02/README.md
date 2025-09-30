@@ -189,6 +189,13 @@ lists all possible modules.
 squeue -o "%.18i %.8u %.10Q %.10a %.15j %.6D %.2t %.20r %.19S %.10L %.10p"
 ```
 
+# Ex 4
+- Running with 1 Thread: Computed in 4.457 seconds
+- Running with 10 Threads: Computed in 0.9402 seconds
+Once we only have one thread and it takes approx 4.5 seconds in comparison to 10 threads with 1 second.
+
+- Change makefile with O0 flag that is zero optimizasion we have for 10 threads : Computed in 22.99 seconds and with 128 threads: Computed in 23.53 seconds
+so no real improvment there
 
 
 
