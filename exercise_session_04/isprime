@@ -1,0 +1,22 @@
+#!/bin/bash
+
+n=$1
+
+if ! [[ $n =~ ^[0-9]+$ ]]; then
+    echo "ERROR: The given input is not a positive integer: $n"
+    exit 1
+fi
+if (( n < 2 )); then
+    echo "ERROR: The given input is not a positive integer: $n"
+    exit 1
+fi
+
+factors=$(factor "$n")
+count=$(echo "$factors" | wc -w)
+
+if [[ $count -eq 2 ]]; then
+    echo "$n is prime"
+else
+    echo "$n is composite"
+fi
+
