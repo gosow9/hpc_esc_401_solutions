@@ -37,4 +37,12 @@ Initializes the **source term** and **boundary conditions** on the grid:
 * Interior points: set using `source_term(x, y, rhs_function)`
 * Boundary points: set using `boundary(x, y, rhs_function)`
 
+## Exercise 02
+
+For exercise the code was checked in the repo under the poisson_solver_mp directory. Under the ouput.log file the different runs with up to 16 threads are logged.
+
+
+
+## Exercise 03
+
 
