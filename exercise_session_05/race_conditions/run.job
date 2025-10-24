@@ -1,0 +1,24 @@
+#!/bin/bash -l
+#SBATCH --account=uzh8
+#SBATCH --job-name="poisson_par_job"
+#SBATCH --time=00:05:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --partition=debug
+#SBATCH --output=output.log
+#SBATCH --error=errors.log
+
+# Loop over thread counts
+for threads in 1 4 8 16; do
+    echo "============================"
+    echo "Running with $threads threads"
+    echo "============================"
+    export OMP_NUM_THREADS=$threads
+
+    # Time the run and redirect both stdout & stderr into the log
+    srun --cpu-bind=cores bash -c "/usr/bin/time -p ./race" 2>&1
+
+    echo
+done
+
