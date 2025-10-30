@@ -1,0 +1,19 @@
+#!/bin/bash -l
+#SBATCH --account=uzh8
+#SBATCH --job-name=mpi_pi
+#SBATCH --time=00:05:00
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=128
+#SBATCH --cpus-per-task=1
+#SBATCH --partition=debug
+#SBATCH --constraint=mc
+#SBATCH --hint=nomultithread
+#SBATCH --output=output_mpi.log
+#SBATCH --error=errors_mpi.log
+
+module load PrgEnv-gnu cray-mpich
+
+export OMP_NUM_THREADS=1
+
+srun --cpu-bind=cores ./mpi_pi 3000000000
+
