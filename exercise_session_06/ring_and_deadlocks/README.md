@@ -11,5 +11,9 @@ Even ranks send first, odd ranks receive first -> at least one side posts a `Rec
 
 Non‑blocking avoids circular waits and lets comms progress/overlap with work. One phase, less idle time, scales better.
 
+## Q4 Advantage of a Cartesian communicator
+  
+Neighbor ranks come “for free” with `MPI_Cart_shift`, periodic BCs are built‑in, and MPI may reorder ranks to match hardware. This is cleaner and usually faster to extend to multi‑D.
+
 
 
