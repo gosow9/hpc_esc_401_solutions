@@ -1,0 +1,20 @@
+#!/bin/bash -l
+#SBATCH --account=uzh8
+#SBATCH --job-name="ring_mpi"
+#SBATCH --time=00:05:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=4
+#SBATCH --cpus-per-task=1
+#SBATCH --partition=debug
+#SBATCH --output=output.log
+#SBATCH --error=errors.log
+
+
+echo "== ring_1 (even/odd blocking) =="
+srun ./ring_1
+
+echo "== ring_2 (non-blocking) =="
+srun ./ring_2
+
+echo "== ring_3 (cartesian + non-blocking) =="
+srun ./ring_3
