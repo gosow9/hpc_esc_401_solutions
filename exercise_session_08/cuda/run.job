@@ -1,0 +1,11 @@
+#!/usr/bin/bash -l
+#SBATCH --job-name=cpi_cuda
+#SBATCH -A uzh8
+#SBATCH --time=0-00:05:00
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --gpus-per-node=1
+#SBATCH --output=slurm-cpi_cuda.out
+
+srun ./cpi_cuda
+

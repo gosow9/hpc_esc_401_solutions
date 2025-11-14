@@ -1,0 +1,6 @@
+make: Nothing to be done for 'all'.
+PI = 3.141592653589793 computed in 1.015 seconds
+PI = 3.141592653589793 computed in 0.001153 seconds
+PI = 3.141592653589793 computed in 0.00114 seconds
+PI = 3.141592653589793 computed in 0.001144 seconds
+PI = 3.141592653589793 computed in 0.001139 seconds
