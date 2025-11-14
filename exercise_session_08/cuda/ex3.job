@@ -1,0 +1,40 @@
+#!/usr/bin/bash -l
+#SBATCH --job-name=cpi_cuda_sweep
+#SBATCH -A uzh8
+#SBATCH --time=0-00:10:00
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --gpus-per-node=1
+#SBATCH --output=slurm-cpi_cuda_sweep.out
+
+module load nvhpc
+
+cd "$HOME/hpc_esc_401_solutions/exercise_8/cuda"
+
+# Lists from the exercise
+blocks="60 120 180 240 300 360 420 600"
+threads="16 32 48 64 80 96 112 128 144 160"
+
+# Result file (CSV-like)
+out_file="timings_cuda.csv"
+echo "#blocks,threads,time" > "$out_file"
+
+for b in $blocks; do
+  for t in $threads; do
+    echo "Running blocks=$b threads=$t"
+    # Run the code once for this configuration
+    line=$(srun ./cpi_cuda $b $t | tail -n 1)
+
+    # 'line' looks like: "blocks=  60 threads=  64 PI = ... time = 0.012345"
+    # We want to extract just blocks, threads, time.
+    # Easiest: let the C code print CSV directly. If not, you can parse in Python later.
+
+    # If you changed the C printf to:
+    # printf("%d,%d,%.6f\n", numBlocks, numThreads, elapsed);
+    # you can simply do:
+    echo "$line" >> "$out_file"
+  done
+done
+
+echo "All runs done. Results in $out_file"
+
