@@ -9,11 +9,7 @@
 #SBATCH -J cpi_openacc
 #SBATCH --output=slurm-openacc.out
 
-cd ~/hpc_esc_401_solutions/exercise_8/openacc
-
-# 1) Kompilieren in der uenv
 make
 
-# 2) Ausführen
 srun ./cpi_openacc
 
