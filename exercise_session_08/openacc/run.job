@@ -1,0 +1,19 @@
+#!/usr/bin/bash -l
+#SBATCH --uenv=prgenv-nvfortran/25.7:v2
+#SBATCH --view=nvfort
+#SBATCH -A uzh8
+#SBATCH --time=0-00:05:00
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --gpus-per-node=1
+#SBATCH -J cpi_openacc
+#SBATCH --output=slurm-openacc.out
+
+cd ~/hpc_esc_401_solutions/exercise_8/openacc
+
+# 1) Kompilieren in der uenv
+make
+
+# 2) Ausführen
+srun ./cpi_openacc
+
