@@ -74,3 +74,12 @@ Running blocks=600 threads=16
 Running blocks=600 threads=32
 Running blocks=600 threads=48
 srun: Job 2009317 step creation temporarily disabled, retrying (Requested nodes are busy)
+srun: Step created for StepId=2009317.72
+Running blocks=600 threads=64
+Running blocks=600 threads=80
+Running blocks=600 threads=96
+Running blocks=600 threads=112
+Running blocks=600 threads=128
+Running blocks=600 threads=144
+Running blocks=600 threads=160
+All runs done. Results in timings_cuda.csv
