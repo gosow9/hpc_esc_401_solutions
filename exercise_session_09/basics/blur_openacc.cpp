@@ -7,7 +7,7 @@
 #include "util.h"
 
 #ifdef _OPENACC
-    // TODO: declare routine accordingly so as to be called from the GPU
+#pragma acc routine seq
 #endif
 double blur(int pos, const double *u)
 {
@@ -50,12 +50,12 @@ void blur_twice_gpu_naive(double *in , double *out , int n, int nsteps)
     double *buffer = malloc_host<double>(n);
 
     for (auto istep = 0; istep < nsteps; ++istep) {
-        // TODO: offload this loop to the GPU
+        #pragma acc parallel loop copyin(in[0:n]) copyout(buffer[0:n])
         for (auto i = 1; i < n-1; ++i) {
             buffer[i] = blur(i, in);
         }
 
-        // TODO: offload this loop to the GPU
+        #pragma acc parallel loop copyin(buffer[0:n]) copyout(out[0:n])
         for (auto i = 2; i < n-2; ++i) {
             out[i] = blur(i, buffer);
         }
@@ -70,20 +70,20 @@ void blur_twice_gpu_nocopies(double *in , double *out , int n, int nsteps)
 {
     double *buffer = malloc_host<double>(n);
 
-    // TODO: move the data needed by the algorithm to the GPU
+    #pragma acc data copyin(in[0:n]) copy(out[0:n]) create(buffer[0:n])
     {
         for (auto istep = 0; istep < nsteps; ++istep) {
-            // TODO: offload this loop to the GPU
+            #pragma acc parallel loop present(in[0:n], buffer[0:n])
             for (auto i = 1; i < n-1; ++i) {
                 buffer[i] = blur(i, in);
             }
 
-            // TODO: offload this loop to the GPU
+            #pragma acc parallel loop present(buffer[0:n], out[0:n])
             for (auto i = 2; i < n-2; ++i) {
                 out[i] = blur(i, buffer);
             }
 
-            // TODO: offload this loop to the GPU; can you try just the pointer assignment?
+            #pragma acc parallel loop present(in[0:n], out[0:n])
             for (auto i = 0; i < n; ++i) {
                 in[i] = out[i];
             }
