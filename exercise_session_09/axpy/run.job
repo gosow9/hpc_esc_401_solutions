@@ -1,0 +1,22 @@
+#!/usr/bin/bash -l
+#SBATCH --job-name=axpy_openacc
+#SBATCH -A uzh8
+#SBATCH --time=0-00:05:00
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --gpus-per-node=1
+#SBATCH --output=slurm-axpy_openacc.out
+#SBATCH --uenv=prgenv-nvfortran/25.7:v2
+#SBATCH --view=nvfort
+
+
+pows="16 18 20 22 24 26"
+
+for pow in $pows; do
+    N=$((1 << pow))
+    echo "==============================="
+    echo "Running with pow = $pow  (N = $N)"
+    echo "==============================="
+    srun -n 1 ./axpy.openacc "$pow"
+    echo
+done

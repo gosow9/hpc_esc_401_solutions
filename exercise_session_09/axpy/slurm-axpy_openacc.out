@@ -1,0 +1,72 @@
+===============================
+Running with pow = 16  (N = 65536)
+===============================
+memcopy and daxpy test of size 65536
+-------
+timings
+-------
+axpy (openmp): 0.0627457 s
+axpy (openacc): 1.02647 s
+
+============ PASSED
+
+===============================
+Running with pow = 18  (N = 262144)
+===============================
+memcopy and daxpy test of size 262144
+-------
+timings
+-------
+axpy (openmp): 0.0622683 s
+axpy (openacc): 0.838059 s
+
+============ PASSED
+
+===============================
+Running with pow = 20  (N = 1048576)
+===============================
+memcopy and daxpy test of size 1048576
+-------
+timings
+-------
+axpy (openmp): 0.0623293 s
+axpy (openacc): 0.863851 s
+
+============ PASSED
+
+===============================
+Running with pow = 22  (N = 4194304)
+===============================
+memcopy and daxpy test of size 4194304
+-------
+timings
+-------
+axpy (openmp): 0.0624371 s
+axpy (openacc): 0.833946 s
+
+============ PASSED
+
+===============================
+Running with pow = 24  (N = 16777216)
+===============================
+memcopy and daxpy test of size 16777216
+-------
+timings
+-------
+axpy (openmp): 0.0631739 s
+axpy (openacc): 0.839206 s
+
+============ PASSED
+
+===============================
+Running with pow = 26  (N = 67108864)
+===============================
+memcopy and daxpy test of size 67108864
+-------
+timings
+-------
+axpy (openmp): 0.0639483 s
+axpy (openacc): 0.885466 s
+
+============ PASSED
+
