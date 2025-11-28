@@ -13,19 +13,24 @@ __global__ void kconvol (float *gpu_a, float *gpu_b, int n) {
   int i, j, l;
   // TO DO : evaluate the global 1D index l of the current thread,
   // using blockDim, blockIdx and threadIdx.
-
-  
+  l = blockIdx.x * blockDim.x + threadIdx.x;
+    
   // TO DO : evaluate global indeces of thread (i,j) from the index l
-  j = ...;
-  i = ...;
+  i = l/n;
+  j = l-i *n; 
 
   if ((i >= n) || (j >= n)) return;
+
   if ((i == 0) || (j == 0) || (i == n-1) || (j == n-1))  {
     gpu_b[l] = gpu_a[l]; // edges are untouched
   }
   else
     // TO DO : fill up the MISSING indices below
-    gpu_b[l]=(1./5.)*(gpu_a[l-n] + gpu_a[/*MISSING*/] + gpu_a[l] + gpu_a[l+1]+ gpu_a[/*MISSING*/]);
+    gpu_b[l] = (1./5.) * (gpu_a[l-n] //up
+                         + gpu_a[l-1] // left
+                         + gpu_a[l] // center
+                         + gpu_a[l+1] // right
+                         + gpu_a[l+n]); // downer
 }
 
 extern "C" void gpu_convol (float *a, float *b, int n) {
@@ -51,7 +56,9 @@ extern "C" void gpu_convol (float *a, float *b, int n) {
   // memory transfer.
   chrono (START, &time);
   // TO DO : the number of blocks is missing below in the kernel invocation
-  kconvol <<</*MISSING*/,BLOCKSIZE>>> (gpu_a, gpu_b, n);
+  int numBlocks = (n*n + BLOCKSIZE - 1) / BLOCKSIZE;
+
+  kconvol <<<numBlocks ,BLOCKSIZE>>> (gpu_a, gpu_b, n);
   err=cudaDeviceSynchronize ();
   chrono (STOP, &time);
   printf ("Convolution took  %f sec. on GPU\n", time);
