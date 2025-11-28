@@ -10,15 +10,15 @@
 /* Size of a block */
 #define BLOCKSIZE 256
 
-__global__ void kernadd (float* mout, float* min1, float *min2, int nx, int ny)
+__global__ void kernadd_2d (float* mout, float* min1, float *min2, int nx, int ny)
 {
-  int i, j, index;
-  index = blockDim.x*blockIdx.x+threadIdx.x;
-  j = index/nx;
-  i = index - j*nx;
-  if ((i < nx) && (j < ny))
+  int i = blockIdx.x * blockDim.x + threadIdx.x; // x-dir cols
+  int j = blockIdx.y * blockDim.y + threadIdx.y; // y-dir rows
+
+  if (i < nx && j < ny) {
+    int index = i + j * nx; //flatten
     mout[index] = min1[index] + min2[index];
-    
+  }
 }
 
 
@@ -68,8 +68,13 @@ int main () {
   int numBlocks = (nx * ny + BLOCKSIZE - 1) / BLOCKSIZE;
  
   /* TO DO : kernel invocation */
-  kernadd<<<numBlocks, BLOCKSIZE>>>(mat_out_gpu, mat_in1_gpu, mat_in2_gpu, nx, ny);
-  
+  //kernadd<<<numBlocks, BLOCKSIZE>>>(mat_out_gpu, mat_in1_gpu, mat_in2_gpu, nx, ny);
+  // Add kern with 2D and 16x16 threads per block
+  dim3 dimBlock(16, 16);
+  dim3 dimGrid((nx + dimBlock.x - 1) / dimBlock.x,
+             (ny + dimBlock.y - 1) / dimBlock.y);
+
+  kernadd_2d<<<dimGrid, dimBlock>>>(mat_out_gpu, mat_in1_gpu, mat_in2_gpu, nx, ny);
   
   cudaDeviceSynchronize();
   
