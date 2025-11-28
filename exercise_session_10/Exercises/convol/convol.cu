@@ -4,7 +4,9 @@
 #define STOP 0
 #define START 1
 
+#ifndef BLOCKSIZE 
 #define BLOCKSIZE 256
+#endif
 
 
 extern "C" void chrono (int kind, float *time);

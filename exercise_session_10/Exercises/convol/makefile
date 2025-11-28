@@ -1,3 +1,5 @@
+BLOCKSIZE ?= 256
+
 all : main.o convol.o
 	nvcc main.o convol.o
 
@@ -5,7 +7,7 @@ main.o : main.c
 	cc -c main.c
 
 convol.o : convol.cu
-	nvcc -c convol.cu
+	nvcc -DBLOCKSIZE=$(BLOCKSIZE) -c convol.cu
 
 .PHONY: clean
 clean:
