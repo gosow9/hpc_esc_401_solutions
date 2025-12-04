@@ -15,8 +15,22 @@ automatically instrument the binary, and the build prints additional messages re
 to CrayPat instrumentation compared to normal compilations in previous sessions.
 
 ## Ex 02
+Runtime for this execution with using the `sqrt`-function: 
+
+real	0m12.914s
+user	0m12.792s
+sys	0m0.005s
 
 
+Runtime for execution using the `sqrtf`-function:
+
+real	0m7.214s
+user	0m7.136s
+sys	0m0.001s
+
+So the time reduced by not converting the number to double and back
+
+## Ex 03
 
 
 
