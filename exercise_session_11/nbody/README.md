@@ -1,0 +1,23 @@
+# Exercise sheet 11
+
+## Ex 01
+
+Using perftools with the experiment on nbody (1 MPI rank, 1 thread, runtime 12.7 s, approx 54 MiB memory) shows that 100% of the samples are in main, and about 83% of them come from lines 38–40 in nbody.cpp
+, which correspond to the innermost N-body computation loop.
+
+Another 17% of samples are spent inside std::vector (element access) called from that loop. 
+Memory traffic is very low (0.05 GB in total), so the code is compute-bound rather than memory-bound. 
+This is consistent with the exponential nature of the N-body interaction and tells us that any optimisation (parallelisation with MPI/OpenMP, algorithmic changes, or vectorisation) should focus on this inner loop.
+
+
+When compiling with the perftools-lite module loaded, the Cray compiler wrappers 
+automatically instrument the binary, and the build prints additional messages related 
+to CrayPat instrumentation compared to normal compilations in previous sessions.
+
+## Ex 02
+
+
+
+
+
+
