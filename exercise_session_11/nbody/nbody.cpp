@@ -1,0 +1,102 @@
+#include <random>
+#include <vector>
+#include <cmath>
+
+using std::vector;
+
+// Structure of arrays: each component is its own vector
+struct particles {
+    vector<float> x, y, z;        // position
+    vector<float> vx, vy, vz;     // velocity
+    vector<float> ax, ay, az;     // acceleration
+};
+
+// Initial conditions
+void ic(particles &plist, int n) {
+    std::random_device rd;      // seed for RNG
+    std::mt19937 gen(rd());     // Mersenne Twister
+    std::uniform_real_distribution<float> dis(0.0f, 1.0f);
+
+    // Allocate and initialise all 9 arrays
+    plist.x.resize(n);
+    plist.y.resize(n);
+    plist.z.resize(n);
+
+    plist.vx.resize(n);
+    plist.vy.resize(n);
+    plist.vz.resize(n);
+
+    plist.ax.resize(n);
+    plist.ay.resize(n);
+    plist.az.resize(n);
+
+    for (int i = 0; i < n; ++i) {
+        // random positions in [0,1)
+        plist.x[i] = dis(gen);
+        plist.y[i] = dis(gen);
+        plist.z[i] = dis(gen);
+
+        // initial velocity = 0
+        plist.vx[i] = 0.0f;
+        plist.vy[i] = 0.0f;
+        plist.vz[i] = 0.0f;
+
+        // initial acceleration = 0
+        plist.ax[i] = 0.0f;
+        plist.ay[i] = 0.0f;
+        plist.az[i] = 0.0f;
+    }
+}
+
+void forces(particles &plist) {
+    int n = plist.x.size();   // all arrays have same size
+
+    #pragma omp parallel for schedule(static)
+    for (int i = 0; i < n; ++i) {
+        float ax = 0.0f, ay = 0.0f, az = 0.0f;
+
+        // --- first j-loop: j < i ---
+        for (int j = 0; j < i; ++j) {
+            float dx = plist.x[j] - plist.x[i];
+            float dy = plist.y[j] - plist.y[i];
+            float dz = plist.z[j] - plist.z[i];
+
+            float r2    = dx*dx + dy*dy + dz*dz;
+            float r     = sqrtf(r2);
+            float invr3 = 1.0f / (r * r * r);
+
+            ax += dx * invr3;
+            ay += dy * invr3;
+            az += dz * invr3;
+        }
+
+        // --- second j-loop: j > i ---
+        for (int j = i + 1; j < n; ++j) {
+            float dx = plist.x[j] - plist.x[i];
+            float dy = plist.y[j] - plist.y[i];
+            float dz = plist.z[j] - plist.z[i];
+
+            float r2    = dx*dx + dy*dy + dz*dz;
+            float r     = sqrtf(r2);
+            float invr3 = 1.0f / (r * r * r);
+
+            ax += dx * invr3;
+            ay += dy * invr3;
+            az += dz * invr3;
+        }
+
+        // store result for particle i
+        plist.ax[i] = ax;
+        plist.ay[i] = ay;
+        plist.az[i] = az;
+    }
+}
+
+int main(int argc, char *argv[]) {
+    int N = 500'000;
+    particles plist;
+    ic(plist, N);
+    forces(plist);
+    return 0;
+}
+
