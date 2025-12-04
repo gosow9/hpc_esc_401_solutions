@@ -51,6 +51,7 @@ void ic(particles &plist, int n) {
 void forces(particles &plist) {
     int n = plist.x.size();   // all arrays have same size
 
+    #pragma omp parallel for schedule(static)
     for (int i = 0; i < n; ++i) {
         float ax = 0.0f, ay = 0.0f, az = 0.0f;
 
@@ -92,7 +93,7 @@ void forces(particles &plist) {
 }
 
 int main(int argc, char *argv[]) {
-    int N = 50'000;
+    int N = 500'000;
     particles plist;
     ic(plist, N);
     forces(plist);

@@ -1,20 +1,14 @@
 #!/bin/bash -l
-#SBATCH --account=uzh8
-#SBATCH --job-name=nbody
-#SBATCH --time=00:05:00
+#SBATCH --job-name=nbody_omp
+#SBATCH -A uzh8
+#SBATCH --time=0-00:10:00
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=1
-#SBATCH --partition=debug
-#SBATCH --constraint=mc
-#SBATCH --hint=nomultithread
-#SBATCH --output=output_nbody.log
-#SBATCH --error=errors_nbody.log
+#SBATCH --cpus-per-task=128
+#SBATCH --output=nbody_omp.out
 
 module load cray
-module load perftools-lite 
+module swap PrgEnv-cray PrgEnv-gnu
 
-export OMP_NUM_THREADS=1
-
-srun --cpu-bind=cores ./nbody
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+time ./nbody
 

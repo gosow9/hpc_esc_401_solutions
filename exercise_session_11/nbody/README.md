@@ -93,6 +93,72 @@ user	0m1.552s
 sys	0m0.001s
 
 
+## Ex 05 
+
+new timing of code 
+
+real	0m0.224s
+user	0m1.557s
+sys	0m0.005s
+
+
+Experiment on eiger running on bigger machine:
+
+running with 50'000 gives a time of 
+
+---
+Unloading the cpe module is insufficient to restore the system defaults.
+Please run 'source
+/opt/cray/pe/cpe/23.12/restore_lmod_system_defaults.[csh|sh]'.
+
+Lmod is automatically replacing "PrgEnv-cray/8.5.0" with "PrgEnv-gnu/8.5.0".
+
+
+Lmod is automatically replacing "cce/17.0.0" with "gcc-native/12.3".
+
+
+Lmod is automatically replacing "gcc-native/12.3" with "cce/17.0.0".
+
+
+Lmod is automatically replacing "cce/17.0.0" with "gcc-native/12.3".
+
+
+real    0m0.057s
+user    0m3.386s
+sys     0m0.023s
+---
+
+Running with 500'000 gives a time of:
+
+---
+Unloading the cpe module is insufficient to restore the system defaults.
+Please run 'source
+/opt/cray/pe/cpe/23.12/restore_lmod_system_defaults.[csh|sh]'.
+
+Lmod is automatically replacing "PrgEnv-cray/8.5.0" with "PrgEnv-gnu/8.5.0".
+
+
+Lmod is automatically replacing "cce/17.0.0" with "gcc-native/12.3".
+
+
+Lmod is automatically replacing "gcc-native/12.3" with "cce/17.0.0".
+
+
+Lmod is automatically replacing "cce/17.0.0" with "gcc-native/12.3".
+
+
+real    0m2.003s
+user    3m8.006s
+sys     0m0.080s
+
+---
+
+- real is the elapsed wall-clock time of the whole program run. 
+- user is the sum of CPU time spent in user code over all threads, which can be much larger than real when using OpenMP because many cores work in parallel. iuser = #of threads * real
+- sys is the time spent in kernel mode.
+
+
+
 
 
 
