@@ -32,6 +32,38 @@ So the time reduced by not converting the number to double and back
 
 ## Ex 03
 
+When we compile the code we get some verbose output telling us about the vectorisation: 
+
+```bash
+CC -O3 -march=native -fopt-info-vec -ffast-math -g -o nbody nbody.cpp
+nbody.cpp:42:14: optimized: basic block part vectorized using 32 byte vectors
+/usr/include/c++/12/bits/vector.tcc:515:30: optimized: basic block part vectorized using 32 byte vectors
+/usr/include/c++/12/bits/random.tcc:412:42: optimized: loop vectorized using 32 byte vectors
+/usr/include/c++/12/bits/random.tcc:404:32: optimized: loop vectorized using 32 byte vectors
+/usr/include/c++/12/bits/random.tcc:404:32: optimized: loop vectorized using 16 byte vectors
+/usr/include/c++/12/bits/vector.tcc:96:27: optimized: basic block part vectorized using 32 byte vectors
+/usr/include/c++/12/bits/stl_vector.h:100:4: optimized: basic block part vectorized using 32 byte vectors
+
+```
+
+New vectorisation report:
+
+```bash
+usr/include/c++/12/bits/vector.tcc:699:31: optimized: basic block part vectorized using 32 byte vectors
+/usr/include/c++/12/bits/random.tcc:412:42: optimized: loop vectorized using 32 byte vectors
+/usr/include/c++/12/bits/random.tcc:404:32: optimized: loop vectorized using 32 byte vectors
+/usr/include/c++/12/bits/random.tcc:404:32: optimized: loop vectorized using 16 byte vectors
+/usr/include/c++/12/bits/stl_vector.h:100:4: optimized: basic block part vectorized using 32 byte vectors
+/usr/include/c++/12/bits/stl_vector.h:100:4: optimized: basic block part vectorized using 32 byte vectors
+
+```
 
 
+for me the two reports seems the same? 
 
+
+With changes the new timing is 
+
+real	0m7.043s
+user	0m7.041s
+sys	0m0.000s
