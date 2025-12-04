@@ -51,18 +51,17 @@ void ic(particles &plist, int n) {
 void forces(particles &plist) {
     int n = plist.x.size();   // all arrays have same size
 
-    for (int i = 0; i < n; ++i) {      // force on particle i
+    for (int i = 0; i < n; ++i) {
         float ax = 0.0f, ay = 0.0f, az = 0.0f;
 
-        for (int j = 0; j < n; ++j) {  // contribution from all j
-            if (i == j) continue;      // skip self-interaction
-
+        // --- first j-loop: j < i ---
+        for (int j = 0; j < i; ++j) {
             float dx = plist.x[j] - plist.x[i];
             float dy = plist.y[j] - plist.y[i];
             float dz = plist.z[j] - plist.z[i];
 
-            float r2   = dx*dx + dy*dy + dz*dz;
-            float r    = sqrtf(r2);
+            float r2    = dx*dx + dy*dy + dz*dz;
+            float r     = sqrtf(r2);
             float invr3 = 1.0f / (r * r * r);
 
             ax += dx * invr3;
@@ -70,6 +69,22 @@ void forces(particles &plist) {
             az += dz * invr3;
         }
 
+        // --- second j-loop: j > i ---
+        for (int j = i + 1; j < n; ++j) {
+            float dx = plist.x[j] - plist.x[i];
+            float dy = plist.y[j] - plist.y[i];
+            float dz = plist.z[j] - plist.z[i];
+
+            float r2    = dx*dx + dy*dy + dz*dz;
+            float r     = sqrtf(r2);
+            float invr3 = 1.0f / (r * r * r);
+
+            ax += dx * invr3;
+            ay += dy * invr3;
+            az += dz * invr3;
+        }
+
+        // store result for particle i
         plist.ax[i] = ax;
         plist.ay[i] = ay;
         plist.az[i] = az;

@@ -67,3 +67,35 @@ With changes the new timing is
 real	0m7.043s
 user	0m7.041s
 sys	0m0.000s
+
+
+## Ex 04 
+
+New vectorize report now two 16 byte vectors:
+
+```bash
+nbody.cpp:73:31: optimized: loop vectorized using 32 byte vectors
+nbody.cpp:73:31: optimized: loop vectorized using 16 byte vectors
+nbody.cpp:58:27: optimized: loop vectorized using 32 byte vectors
+nbody.cpp:58:27: optimized: loop vectorized using 16 byte vectors
+/usr/include/c++/12/bits/vector.tcc:699:31: optimized: basic block part vectorized using 32 byte vectors
+/usr/include/c++/12/bits/random.tcc:412:42: optimized: loop vectorized using 32 byte vectors
+/usr/include/c++/12/bits/random.tcc:404:32: optimized: loop vectorized using 32 byte vectors
+/usr/include/c++/12/bits/random.tcc:404:32: optimized: loop vectorized using 16 byte vectors
+/usr/include/c++/12/bits/stl_vector.h:100:4: optimized: basic block part vectorized using 32 byte vectors
+/usr/include/c++/12/bits/stl_vector.h:100:4: optimized: basic block part vectorized using 32 byte vectors
+```
+
+New timings for code: 
+
+real	0m1.616s
+user	0m1.552s
+sys	0m0.001s
+
+
+
+
+
+
+
+
